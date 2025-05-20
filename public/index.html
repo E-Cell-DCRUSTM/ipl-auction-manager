@@ -4,34 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPL Auction 2025</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-pattern"></div>
+    </div>
+    
     <div class="auction-container">
         <!-- Initial welcome screen -->
-        <div id="welcome-screen">
-            <h1>Chase The Bid</h1>
-            <h2>IPL AUCTION 2025</h2>
-            <p>Waiting for auction to begin...</p>
+        <div id="welcome-screen" class="screen">
+            <div class="logo-animation">
+                <div class="logo-circle"></div>
+                <div class="logo-pulse"></div>
+            </div>
+            <h1 class="title-animated">Chase The Bid</h1>
+            <h2 class="subtitle-animated">IPL AUCTION 2025</h2>
+            <div class="waiting-animation">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
         </div>
         
         <!-- Player card display area -->
-        <div id="player-display" class="hidden">
-            <img id="player-card" src="" alt="Player Card">
+        <div id="player-display" class="screen hidden">
+            <div class="card-container">
+                <img id="player-card" src="" alt="Player Card">
+            </div>
         </div>
         
         <!-- Bidding results screen -->
-        <div id="bid-results" class="hidden">
+        <div id="bid-results" class="screen hidden">
             <div class="result-card">
-                <h2 id="player-name"></h2>
+                <h2 id="player-name" class="result-player-name"></h2>
+                <div class="result-divider"></div>
                 <div class="bid-details">
-                    <div class="team-logo">
-                        <img id="team-logo" src="" alt="Team Logo">
+                    <div class="team-section">
+                        <h3 class="section-title">SOLD TO</h3>
+                        <div class="team-logo-container">
+                            <img id="team-logo" src="" alt="Team Logo">
+                        </div>
                     </div>
-                    <div class="bid-info">
-                        <h3>Final Bid</h3>
-                        <div id="final-bid" class="bid-amount"></div>
+                    <div class="price-section">
+                        <h3 class="section-title">FINAL BID</h3>
+                        <div id="final-bid" class="bid-amount">₹0 CR</div>
                     </div>
+                </div>
+                <div class="celebration-badge">
+                    <span class="badge-text">SOLD</span>
                 </div>
             </div>
         </div>
@@ -42,6 +65,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.5.1/dist/socket.io.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="display.js"></script>
 </body>
 </html>

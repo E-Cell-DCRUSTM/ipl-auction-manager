@@ -46,14 +46,17 @@ io.on('connection', (socket) => {
     
     socket.on('show-player', (data) => {
         io.emit('show-player', data);
+        console.log(`Showing player: ${data.playerName}`);
     });
     
     socket.on('show-bid-result', (data) => {
         io.emit('show-bid-result', data);
+        console.log(`Showing result for ${data.playerName}: ₹${data.finalBid} Cr to ${data.teamImage.split('.')[0]}`);
     });
     
     socket.on('show-welcome', () => {
         io.emit('show-welcome');
+        console.log('Showing welcome screen');
     });
     
     socket.on('disconnect', () => {
@@ -65,4 +68,6 @@ io.on('connection', (socket) => {
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    console.log(`Display: http://localhost:${PORT}`);
+    console.log(`Controller: http://localhost:${PORT}/controller`);
 });
