@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Auction 2025</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="auction-container">
+        <!-- Initial welcome screen -->
+        <div id="welcome-screen">
+            <h1>Chase The Bid</h1>
+            <h2>IPL AUCTION 2025</h2>
+            <p>Waiting for auction to begin...</p>
+        </div>
+        
+        <!-- Player card display area -->
+        <div id="player-display" class="hidden">
+            <img id="player-card" src="" alt="Player Card">
+        </div>
+        
+        <!-- Bidding results screen -->
+        <div id="bid-results" class="hidden">
+            <div class="result-card">
+                <h2 id="player-name"></h2>
+                <div class="bid-details">
+                    <div class="team-logo">
+                        <img id="team-logo" src="" alt="Team Logo">
+                    </div>
+                    <div class="bid-info">
+                        <h3>Final Bid</h3>
+                        <div id="final-bid" class="bid-amount"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Canvas for confetti -->
+    <canvas id="confetti-canvas"></canvas>
+    
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.5.1/dist/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="display.js"></script>
+</body>
+</html>

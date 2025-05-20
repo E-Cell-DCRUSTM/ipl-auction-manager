@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Auction Controller</title>
+    <link rel="stylesheet" href="controller-styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>IPL Auction 2025 Controller</h1>
+        </header>
+        
+        <main>
+            <div class="control-panel">
+                <div class="panel-section">
+                    <h2>Player Card Selection</h2>
+                    <div class="search-container">
+                        <input type="text" id="card-search" placeholder="Search player card (e.g. Virat Kohli)...">
+                        <div id="search-results" class="search-results"></div>
+                    </div>
+                    
+                    <div class="selected-card-preview">
+                        <h3>Selected Card</h3>
+                        <div id="current-card" class="current-card">
+                            <p>No card selected</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel-section">
+                    <h2>Auction Controls</h2>
+                    <div class="bidding-controls">
+                        <h3>Bid Result</h3>
+                        <div class="player-name-input">
+                            <label for="player-name-input">Player Name:</label>
+                            <input type="text" id="player-name-input" placeholder="Enter player name">
+                        </div>
+                        
+                        <div class="team-selection">
+                            <label for="team-select">Winning Team:</label>
+                            <select id="team-select">
+                                <option value="">Select Team</option>
+                                <option value="csk">Chennai Super Kings</option>
+                                <option value="mi">Mumbai Indians</option>
+                                <option value="rcb">Royal Challengers Bangalore</option>
+                                <option value="kkr">Kolkata Knight Riders</option>
+                                <option value="dc">Delhi Capitals</option>
+                                <option value="srh">Sunrisers Hyderabad</option>
+                                <option value="pbks">Punjab Kings</option>
+                                <option value="rr">Rajasthan Royals</option>
+                                <option value="gt">Gujarat Titans</option>
+                                <option value="lsg">Lucknow Super Giants</option>
+                            </select>
+                        </div>
+                        
+                        <div class="bid-amount">
+                            <label for="bid-input">Final Bid Amount (in Crores):</label>
+                            <input type="number" id="bid-input" min="0" step="0.25" placeholder="Enter bid amount">
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button id="show-player-btn" class="btn primary-btn">Show Player Card</button>
+                            <button id="show-result-btn" class="btn success-btn">Show Bid Result</button>
+                            <button id="show-welcome-btn" class="btn neutral-btn">Show Welcome Screen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.5.1/dist/socket.io.min.js"></script>
+    <script src="controller.js"></script>
+</body>
+</html>
