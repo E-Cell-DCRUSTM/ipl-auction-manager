@@ -85,9 +85,6 @@ socket.on('show-player', (data) => {
     // Reset current bid to base price
     currentBidElement.textContent = `₹ ${basePrice} CR`;
     
-    // Reset timer to 2 minutes
-    auctionTimerElement.textContent = "02:00";
-    
     // Clear any existing team chips
     biddingTeamsElement.innerHTML = '';
     
@@ -114,6 +111,15 @@ socket.on('show-player', (data) => {
             stagger: 0.2,
             ease: 'power2.out',
             delay: 0.8
+        });
+        
+        // Animate in the context text
+        gsap.from('.player-context', {
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.out',
+            delay: 1.2
         });
     }
 });
@@ -157,20 +163,23 @@ function hideAllScreens() {
 }
 
 function resetWelcomeAnimations() {
-    const title = document.querySelector('.title-animated');
-    const subtitle = document.querySelector('.subtitle-animated');
+    // Find all elements that need animation reset
+    const elements = [
+        { selector: '.cell-logo', animation: 'logoEntrance 1.5s ease-out' },
+        { selector: '.title-animated', animation: 'titleEntrance 1.5s ease-out 0.3s forwards' },
+        { selector: '.subtitle-animated', animation: 'subtitleEntrance 1.5s ease-out 0.6s forwards' },
+        { selector: '.event-info', animation: 'subtitleEntrance 1.5s ease-out 0.9s forwards' }
+    ];
     
-    if (title) {
-        title.style.animation = 'none';
-        title.offsetHeight; // Trigger reflow
-        title.style.animation = 'titleEntrance 1.5s ease-out 0.3s forwards';
-    }
-    
-    if (subtitle) {
-        subtitle.style.animation = 'none';
-        subtitle.offsetHeight; // Trigger reflow
-        subtitle.style.animation = 'subtitleEntrance 1.5s ease-out 0.6s forwards';
-    }
+    // Reset each animation
+    elements.forEach(item => {
+        const element = document.querySelector(item.selector);
+        if (element) {
+            element.style.animation = 'none';
+            element.offsetHeight; // Trigger reflow
+            element.style.animation = item.animation;
+        }
+    });
 }
 
 function animateBidResults() {
@@ -230,23 +239,19 @@ function startCountdown(durationInSeconds = 120) {
     return timer;
 }
 
-// Enhanced confetti animation function
+// Enhanced confetti animation function - Blue theme
 function launchConfetti() {
     const duration = 8 * 1000;
     const animationEnd = Date.now() + duration;
     
-    // Team colors - IPL team colors
+    // Blue and white color scheme with accent colors
     const colors = [
-        '#ff9933', // Orange (SRH)
-        '#004c93', // Blue (MI)
-        '#fcb415', // Yellow (CSK)
-        '#a61832', // Red (PBKS) 
-        '#2561ae', // Blue (DC)
-        '#3b215e', // Purple (KKR)
-        '#D1132B', // Red (RCB)
-        '#ff5757', // Pink (RR)
-        '#1d2951', // Navy (GT)
-        '#a7ce3a'  // Lime (LSG)
+        '#0080FF', // Cell blue
+        '#00CCFF', // Light blue
+        '#003366', // Dark blue
+        '#66B2FF', // Baby blue
+        '#FFFFFF', // White
+        '#99CCFF'  // Light blue
     ];
     
     function randomInRange(min, max) {
