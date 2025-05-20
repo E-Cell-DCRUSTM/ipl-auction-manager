@@ -11,10 +11,58 @@ const teamLogoElement = document.getElementById('team-logo');
 const finalBidElement = document.getElementById('final-bid');
 const confettiCanvas = document.getElementById('confetti-canvas');
 
+// New elements for enhanced player display
+const auctionTimerElement = document.getElementById('auction-timer');
+const startingPriceElement = document.getElementById('starting-price');
+const currentBidElement = document.getElementById('current-bid');
+const biddingTeamsElement = document.getElementById('bidding-teams');
+
 // WebSocket event handlers
 socket.on('connect', () => {
     console.log('Connected to server');
 });
+
+// Spotlight effect for card
+function handleMouseMove(e) {
+    const cardContainer = document.querySelector('.card-container');
+    if (!cardContainer) return;
+    
+    const rect = cardContainer.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const spotlight = document.querySelector('.card-spotlight');
+    if (spotlight) {
+        spotlight.style.setProperty('--x', `${x}px`);
+        spotlight.style.setProperty('--y', `${y}px`);
+    }
+    
+    // Subtle 3D effect on the card
+    const xRotation = ((y - rect.height / 2) / rect.height) * 5; // -2.5 to 2.5 degrees
+    const yRotation = ((x - rect.width / 2) / rect.width) * -5; // -2.5 to 2.5 degrees
+    
+    const card = document.getElementById('player-card');
+    if (card) {
+        card.style.transform = `rotateX(${xRotation}deg) rotateY(${yRotation}deg)`;
+    }
+}
+
+// Reset card position when mouse leaves
+function handleMouseLeave() {
+    const card = document.getElementById('player-card');
+    if (card) {
+        card.style.transform = 'rotateX(0) rotateY(0)';
+    }
+}
+
+// Setup card hover effect
+function setupCardHoverEffect() {
+    const cardContainer = document.querySelector('.card-container');
+    if (cardContainer) {
+        cardContainer.addEventListener('mousemove', handleMouseMove);
+        cardContainer.addEventListener('mouseleave', handleMouseLeave);
+    }
+}
 
 socket.on('show-player', (data) => {
     // Hide other screens
@@ -24,6 +72,25 @@ socket.on('show-player', (data) => {
     playerCard.src = `cards/${data.cardFilename}`;
     playerCard.alt = `${data.playerName} Card`;
     
+    // Extract base price from filename or data
+    // This is optional - if you don't have base price data, just use placeholder
+    let basePrice = "2.00";
+    if (data.basePrice) {
+        basePrice = data.basePrice;
+    }
+    
+    // Update base price display
+    startingPriceElement.textContent = `₹ ${basePrice} CR`;
+    
+    // Reset current bid to base price
+    currentBidElement.textContent = `₹ ${basePrice} CR`;
+    
+    // Reset timer to 2 minutes
+    auctionTimerElement.textContent = "02:00";
+    
+    // Clear any existing team chips
+    biddingTeamsElement.innerHTML = '';
+    
     // Show player card with animation
     playerDisplay.classList.remove('hidden');
     
@@ -32,7 +99,22 @@ socket.on('show-player', (data) => {
     if (cardContainer) {
         cardContainer.style.animation = 'none';
         cardContainer.offsetHeight; // Trigger reflow
-        cardContainer.style.animation = 'cardEntrance 1s ease-out';
+        cardContainer.style.animation = 'cardEntrance 1.2s ease-out forwards';
+    }
+    
+    // Setup card hover effect
+    setupCardHoverEffect();
+    
+    // Animate in the stats boxes with GSAP if available
+    if (window.gsap) {
+        gsap.from('.stat-box', {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power2.out',
+            delay: 0.8
+        });
     }
 });
 
@@ -111,6 +193,41 @@ function animateBidResults() {
         {opacity: 0},
         {opacity: 1, duration: 0.5, delay: 1.0, ease: 'power1.in'}
     );
+}
+
+// Mock function to simulate a team bidding (for demo purposes)
+function addTeamBid(teamCode, teamName) {
+    const teamChip = document.createElement('div');
+    teamChip.className = 'team-chip';
+    teamChip.innerHTML = `
+        <img src="team-logos/${teamCode}.png" class="team-chip-logo" alt="${teamName}">
+        <span class="team-chip-text">${teamName}</span>
+    `;
+    
+    biddingTeamsElement.appendChild(teamChip);
+}
+
+// Countdown timer function
+function startCountdown(durationInSeconds = 120) {
+    let timeLeft = durationInSeconds;
+    
+    const timer = setInterval(() => {
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            auctionTimerElement.textContent = "00:00";
+            return;
+        }
+        
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        
+        auctionTimerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        timeLeft--;
+    }, 1000);
+    
+    // Return timer reference in case you need to cancel it
+    return timer;
 }
 
 // Enhanced confetti animation function
@@ -201,3 +318,9 @@ function launchConfetti() {
         });
     }, 2500);
 }
+
+// Initialize any needed functions when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Setup any initial state or listeners
+    console.log('Display page loaded and ready');
+});

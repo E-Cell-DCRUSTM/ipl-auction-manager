@@ -29,10 +29,52 @@
             </div>
         </div>
         
-        <!-- Player card display area -->
+        <!-- Updated Player card display area with more features -->
         <div id="player-display" class="screen hidden">
-            <div class="card-container">
-                <img id="player-card" src="" alt="Player Card">
+            <div class="player-header">
+                <div class="auction-title">PLAYER ON AUCTION</div>
+                <div class="auction-timer" id="auction-timer">02:00</div>
+            </div>
+            
+            <div class="player-showcase">
+                <div class="decorative-element left-element">
+                    <div class="cricket-symbol">
+                        <span class="symbol-dot"></span>
+                        <span class="symbol-line"></span>
+                    </div>
+                </div>
+                
+                <div class="card-container">
+                    <div class="card-spotlight"></div>
+                    <img id="player-card" src="" alt="Player Card">
+                    <div class="card-reflection"></div>
+                </div>
+                
+                <div class="decorative-element right-element">
+                    <div class="cricket-symbol">
+                        <span class="symbol-dot"></span>
+                        <span class="symbol-line"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bidding-stats">
+                <div class="stat-box starting-price">
+                    <div class="stat-label">OPENING BID</div>
+                    <div class="stat-value" id="starting-price">₹ -- CR</div>
+                </div>
+                <div class="stat-box bid-count">
+                    <div class="stat-label">CURRENT BID</div>
+                    <div class="stat-value" id="current-bid">₹ -- CR</div>
+                </div>
+                <div class="stat-box time-left">
+                    <div class="stat-label">BID NOW</div>
+                    <div class="stat-value pulse-text">OPEN</div>
+                </div>
+            </div>
+            
+            <div class="bidding-teams" id="bidding-teams">
+                <!-- Team logos will dynamically appear here when they bid -->
             </div>
         </div>
         

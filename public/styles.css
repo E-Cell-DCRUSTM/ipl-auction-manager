@@ -245,45 +245,261 @@ body {
     }
 }
 
-/* Player Card Display */
+/* Player Card Display - Enhanced */
 #player-display {
     width: 100%;
-    max-width: 900px;
+    max-width: 1100px;
     height: auto;
     padding: 2rem;
 }
 
-.card-container {
-    width: 100%;
+.player-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.auction-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    letter-spacing: 2px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(90deg, #ff9e2c, var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glowText 2s infinite alternate;
+}
+
+.auction-timer {
+    background: rgba(255, 0, 0, 0.2);
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border: 2px solid rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    animation: timerPulse 1s infinite alternate;
+}
+
+@keyframes timerPulse {
+    from { box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
+    to { box-shadow: 0 0 25px rgba(255, 0, 0, 0.8); }
+}
+
+@keyframes glowText {
+    from { text-shadow: 0 0 5px rgba(255, 158, 44, 0.5); }
+    to { text-shadow: 0 0 15px rgba(255, 158, 44, 0.8); }
+}
+
+.player-showcase {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.decorative-element {
+    height: 300px;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cricket-symbol {
     position: relative;
-    overflow: hidden;
+    height: 140px;
+    width: 50px;
+}
+
+.symbol-dot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, #ff9e2c, var(--secondary-color));
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(255, 158, 44, 0.7);
+    animation: symbolPulse 2s infinite alternate;
+}
+
+.symbol-line {
+    position: absolute;
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100px;
+    background: linear-gradient(to bottom, var(--secondary-color), transparent);
+}
+
+@keyframes symbolPulse {
+    from { transform: translateX(-50%) scale(0.8); opacity: 0.7; }
+    to { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+.left-element .cricket-symbol {
+    transform: rotate(30deg);
+}
+
+.right-element .cricket-symbol {
+    transform: rotate(-30deg);
+}
+
+.card-container {
+    position: relative;
+    width: 100%;
+    max-width: 650px; /* Reduced from 800px */
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.4);
-    transform: perspective(1000px) rotateX(0deg);
-    transition: transform 0.5s ease;
-    animation: cardEntrance 1s ease-out;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 158, 44, 0.4);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    overflow: hidden;
 }
 
-.card-container:hover {
-    transform: perspective(1000px) rotateX(2deg);
-}
-
-@keyframes cardEntrance {
-    0% {
-        transform: perspective(1000px) rotateX(30deg) translateY(50px);
-        opacity: 0;
-    }
-    100% {
-        transform: perspective(1000px) rotateX(0deg) translateY(0);
-        opacity: 1;
-    }
+.card-spotlight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        circle at var(--x, 50%) var(--y, 50%), 
+        rgba(255, 255, 255, 0.2) 0%, 
+        rgba(255, 255, 255, 0) 60%
+    );
+    pointer-events: none;
+    z-index: 2;
 }
 
 #player-card {
     width: 100%;
     height: auto;
     display: block;
-    transition: transform 0.3s ease;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+.card-reflection {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.1), transparent);
+    transform: scaleY(-1);
+    opacity: 0.3;
+    filter: blur(2px);
+    pointer-events: none;
+}
+
+.bidding-stats {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-box {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-box:hover {
+    background: rgba(0, 0, 0, 0.6);
+    transform: translateY(-5px);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #999;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+}
+
+.pulse-text {
+    color: #4CAF50;
+    animation: textPulse 1.5s infinite alternate;
+}
+
+@keyframes textPulse {
+    from { opacity: 0.7; text-shadow: 0 0 5px rgba(76, 175, 80, 0.5); }
+    to { opacity: 1; text-shadow: 0 0 15px rgba(76, 175, 80, 0.8); }
+}
+
+.bidding-teams {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.team-chip {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    animation: chipEntrance 0.5s ease-out;
+}
+
+.team-chip-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: contain;
+    margin-right: 0.5rem;
+    background: white;
+}
+
+.team-chip-text {
+    font-weight: 600;
+    color: #333;
+}
+
+@keyframes chipEntrance {
+    from { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.1); }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Card entrance animation */
+@keyframes cardEntrance {
+    0% {
+        transform: perspective(1000px) rotateY(-15deg) translateY(50px);
+        opacity: 0;
+        filter: blur(10px);
+    }
+    50% {
+        filter: blur(0);
+    }
+    75% {
+        transform: perspective(1000px) rotateY(5deg) translateY(0);
+    }
+    100% {
+        transform: perspective(1000px) rotateY(0) translateY(0);
+        opacity: 1;
+    }
 }
 
 /* Bid Results Screen */
@@ -469,7 +685,27 @@ body {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
+    .player-showcase {
+        gap: 1rem;
+    }
+    
+    .decorative-element {
+        width: 50px;
+    }
+    
+    .card-container {
+        max-width: 550px;
+    }
+    
+    .auction-title {
+        font-size: 1.5rem;
+    }
+    
+    .auction-timer {
+        font-size: 1.2rem;
+    }
+    
     .title-animated {
         font-size: 3rem;
     }
@@ -485,8 +721,64 @@ body {
     .bid-amount {
         font-size: 2.5rem;
     }
+}
+
+@media (max-width: 768px) {
+    .player-showcase {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .decorative-element {
+        display: none;
+    }
+    
+    .card-container {
+        max-width: 450px;
+    }
+    
+    .bidding-stats {
+        flex-direction: column;
+    }
+    
+    .player-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
     
     .bid-details {
         flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+    .title-animated {
+        font-size: 2.5rem;
+    }
+    
+    .subtitle-animated {
+        font-size: 1.5rem;
+    }
+    
+    .result-player-name {
+        font-size: 2rem;
+    }
+    
+    .bid-amount {
+        font-size: 2rem;
+        padding: 0.8rem 1rem;
+    }
+    
+    .team-logo-container {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .section-title {
+        font-size: 1rem;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
     }
 }
