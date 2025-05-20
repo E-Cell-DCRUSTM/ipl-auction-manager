@@ -198,6 +198,33 @@ showWelcomeBtn.addEventListener('click', () => {
     showToast('info', 'Showing welcome screen');
 });
 
+// Unsold button
+const markUnsoldBtn = document.getElementById('mark-unsold-btn');
+
+markUnsoldBtn.addEventListener('click', () => {
+    if (!selectedCard) {
+        showToast('warning', 'Please select a player card first');
+        return;
+    }
+    
+    const playerName = playerNameInput.value;
+    
+    if (!playerName) {
+        showToast('warning', 'Please enter the player name');
+        return;
+    }
+    
+    // Ask for confirmation
+    if (confirm(`Mark ${playerName} as UNSOLD?`)) {
+        socket.emit('show-player-unsold', {
+            playerName: playerName,
+            cardFilename: selectedCard
+        });
+        
+        showToast('info', `${playerName} marked as UNSOLD`);
+    }
+});
+
 // Initialize
 fetchAvailableCards();
 

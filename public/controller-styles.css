@@ -333,6 +333,12 @@ input:focus, select:focus {
     margin-top: 2rem;
 }
 
+/* First row: Show Player and Show Result */
+/* Second row: Mark Unsold and Show Welcome */
+.action-buttons button {
+    margin-bottom: 0;
+}
+
 .action-buttons button:last-child {
     grid-column: span 2;
     margin-top: 0.2rem;
@@ -417,6 +423,18 @@ input:focus, select:focus {
 .toast-content i {
     margin-right: 0.8rem;
     font-size: 1.2rem;
+}
+
+/* Unsold button styling */
+.danger-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.danger-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 /* Scrollbar styling */

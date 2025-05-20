@@ -329,3 +329,132 @@ document.addEventListener('DOMContentLoaded', function() {
     // Setup any initial state or listeners
     console.log('Display page loaded and ready');
 });
+
+// Add this new socket event handler to your display.js file
+
+socket.on('show-player-unsold', (data) => {
+    // Hide other screens
+    hideAllScreens();
+    
+    // Update player name
+    playerNameElement.textContent = data.playerName;
+    
+    // Show bid results screen
+    bidResults.classList.remove('hidden');
+    
+    // Hide sold section, show unsold section
+    document.getElementById('sold-section').classList.add('hidden');
+    document.getElementById('unsold-section').classList.remove('hidden');
+    
+    // Animate elements with GSAP if available
+    if (window.gsap) {
+        gsap.fromTo('.result-player-name', 
+            {y: -50, opacity: 0},
+            {y: 0, opacity: 1, duration: 0.8, ease: 'power2.out'}
+        );
+        
+        gsap.fromTo('.unsold-circle',
+            {scale: 0, opacity: 0},
+            {scale: 1, opacity: 1, duration: 0.8, ease: 'back.out(1.7)'}
+        );
+        
+        gsap.fromTo('.unsold-status',
+            {y: 20, opacity: 0},
+            {y: 0, opacity: 1, duration: 0.8, delay: 0.4, ease: 'power2.out'}
+        );
+        
+        gsap.fromTo('.unsold-message',
+            {y: 20, opacity: 0},
+            {y: 0, opacity: 1, duration: 0.8, delay: 0.6, ease: 'power2.out'}
+        );
+        
+        gsap.fromTo('.danger-badge',
+            {opacity: 0},
+            {opacity: 1, duration: 0.5, delay: 0.8, ease: 'power1.in'}
+        );
+    }
+    
+    // Create falling X particles animation
+    createUnsoldAnimation();
+});
+
+// Add the following function to create the unsold animation
+function createUnsoldAnimation() {
+    const particleContainer = document.createElement('div');
+    particleContainer.className = 'unsold-particles';
+    document.body.appendChild(particleContainer);
+    
+    // Create regular particles
+    for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // Random position and animation duration
+        const posX = Math.random() * window.innerWidth;
+        const size = Math.random() * 6 + 4; // 4-10px
+        const delay = Math.random() * 2; // 0-2s delay
+        const duration = Math.random() * 2 + 3; // 3-5s duration
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}px`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        particleContainer.appendChild(particle);
+    }
+    
+    // Create X mark particles (pairs of lines)
+    for (let i = 0; i < 15; i++) {
+        const leftLine = document.createElement('div');
+        leftLine.className = 'particle cross-left';
+        
+        const rightLine = document.createElement('div');
+        rightLine.className = 'particle cross-right';
+        
+        // Set position and animation for the X mark
+        const posX = Math.random() * window.innerWidth;
+        const delay = Math.random() * 3; // 0-3s delay
+        const duration = Math.random() * 2 + 4; // 4-6s duration
+        
+        leftLine.style.left = `${posX}px`;
+        leftLine.style.animationDelay = `${delay}s`;
+        leftLine.style.animationDuration = `${duration}s`;
+        
+        rightLine.style.left = `${posX}px`;
+        rightLine.style.animationDelay = `${delay}s`;
+        rightLine.style.animationDuration = `${duration}s`;
+        
+        particleContainer.appendChild(leftLine);
+        particleContainer.appendChild(rightLine);
+    }
+    
+    // Remove particle container after animation completes
+    setTimeout(() => {
+        particleContainer.remove();
+    }, 8000);
+}
+
+// Modify the existing show-bid-result handler to ensure proper section visibility
+socket.on('show-bid-result', (data) => {
+    // Hide other screens
+    hideAllScreens();
+    
+    // Update bid results content
+    playerNameElement.textContent = data.playerName;
+    teamLogoElement.src = `team-logos/${data.teamImage}`;
+    finalBidElement.textContent = `₹${data.finalBid} CR`;
+    
+    // Show bid results with sold section visible
+    bidResults.classList.remove('hidden');
+    document.getElementById('sold-section').classList.remove('hidden');
+    document.getElementById('unsold-section').classList.add('hidden');
+    
+    // Add GSAP animations for bid result elements
+    if (window.gsap) {
+        animateBidResults();
+    }
+    
+    // Trigger confetti
+    launchConfetti();
+});

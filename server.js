@@ -53,6 +53,11 @@ io.on('connection', (socket) => {
         io.emit('show-bid-result', data);
         console.log(`Showing result for ${data.playerName}: ₹${data.finalBid} Cr to ${data.teamImage.split('.')[0]}`);
     });
+
+    socket.on('show-player-unsold', (data) => {
+        io.emit('show-player-unsold', data);
+        console.log(`Player marked as unsold: ${data.playerName}`);
+    });
     
     socket.on('show-welcome', () => {
         io.emit('show-welcome');

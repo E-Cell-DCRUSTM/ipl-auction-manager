@@ -91,20 +91,42 @@
             <div class="result-card">
                 <h2 id="player-name" class="result-player-name"></h2>
                 <div class="result-divider"></div>
-                <div class="bid-details">
-                    <div class="team-section">
-                        <h3 class="section-title">SOLD TO</h3>
-                        <div class="team-logo-container">
-                            <img id="team-logo" src="" alt="Team Logo">
+                
+                <!-- Sold result section -->
+                <div id="sold-section" class="result-section">
+                    <div class="bid-details">
+                        <div class="team-section">
+                            <h3 class="section-title">SOLD TO</h3>
+                            <div class="team-logo-container">
+                                <img id="team-logo" src="" alt="Team Logo">
+                            </div>
+                        </div>
+                        <div class="price-section">
+                            <h3 class="section-title">FINAL BID</h3>
+                            <div id="final-bid" class="bid-amount">₹0 CR</div>
                         </div>
                     </div>
-                    <div class="price-section">
-                        <h3 class="section-title">FINAL BID</h3>
-                        <div id="final-bid" class="bid-amount">₹0 CR</div>
+                    <div class="celebration-badge success-badge">
+                        <span class="badge-text">SOLD</span>
                     </div>
                 </div>
-                <div class="celebration-badge">
-                    <span class="badge-text">SOLD</span>
+                
+                <!-- Unsold result section -->
+                <div id="unsold-section" class="result-section hidden">
+                    <div class="unsold-animation">
+                        <div class="unsold-circle">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="unsold-details">
+                        <div class="unsold-status">NO BIDS</div>
+                        <div class="unsold-message">Player received no bids in this auction</div>
+                    </div>
+                    
+                    <div class="celebration-badge danger-badge">
+                        <span class="badge-text">UNSOLD</span>
+                    </div>
                 </div>
             </div>
         </div>
